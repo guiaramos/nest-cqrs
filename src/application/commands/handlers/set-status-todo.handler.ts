@@ -22,7 +22,5 @@ export class SetStatusTodoHandler
     todo.status = command.status;
 
     await this.repo.updateOne(todo);
-
-    console.log(todo);
   }
 }

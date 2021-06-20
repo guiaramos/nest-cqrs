@@ -17,10 +17,6 @@ export class TodoRepository {
     return await todo.save();
   }
 
-  async getOne(id: string): Promise<TodoEntity> {
-    return await this.model.findById(id).exec();
-  }
-
   async updateOne(input: Partial<Todo>): Promise<TodoEntity> {
     const update: mongoose.UpdateQuery<TodoEntity> = {
       $set: input,
@@ -29,5 +25,13 @@ export class TodoRepository {
     return await this.model
       .findByIdAndUpdate(input._id, update, { new: true })
       .exec();
+  }
+
+  async getOne(id: string): Promise<TodoEntity> {
+    return await this.model.findById(id).exec();
+  }
+
+  async getAll(): Promise<TodoEntity[]> {
+    return await this.model.find();
   }
 }
