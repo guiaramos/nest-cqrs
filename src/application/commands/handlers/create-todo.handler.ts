@@ -22,7 +22,7 @@ export class CreateTodoHandler implements ICommandHandler<CreateTodoCommand> {
       status: TodoStatus.IN_PROGRESS,
     });
 
-    const createdTodo = await this.repo.create(todo);
+    const createdTodo = await this.repo.createOne(todo);
 
     console.log(createdTodo);
 
