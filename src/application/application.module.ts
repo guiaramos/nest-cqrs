@@ -3,7 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { RepositoryModule } from 'src/infrastructure/repositories/repository.module';
 import { CreateTodoHandler, SetStatusTodoHandler } from './commands/handlers';
 import { TodoCreationSuccessEvent } from './events/defs';
-import { AllTodosHandler } from './queries/handlers';
+import { AllTodosHandler, GetTodoHandler } from './queries/handlers';
 import { TodoSagas } from './sagas/todo.saga';
 
 @Module({
@@ -18,6 +18,7 @@ import { TodoSagas } from './sagas/todo.saga';
     TodoSagas,
     // Queries
     AllTodosHandler,
+    GetTodoHandler,
   ],
 })
 export class ApplicationModule {}

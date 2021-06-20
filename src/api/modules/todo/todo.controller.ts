@@ -13,7 +13,7 @@ import {
   CreateTodoCommand,
   SetStatusTodoCommand,
 } from 'src/application/commands/defs';
-import { AllTodosQuery } from 'src/application/queries/defs';
+import { AllTodosQuery, GetTodoQuery } from 'src/application/queries/defs';
 import { Todo } from 'src/domain/aggregates/todo';
 
 @Controller('v1/todos')
@@ -49,5 +49,14 @@ export class TodoController {
     );
 
     return todos;
+  }
+
+  @Get('/:todoId')
+  async getOneTodo(@Param('todoId') todoId: string) {
+    const todo = await this.queryBus.execute<GetTodoQuery, Todo>(
+      new GetTodoQuery(todoId),
+    );
+
+    return todo;
   }
 }
