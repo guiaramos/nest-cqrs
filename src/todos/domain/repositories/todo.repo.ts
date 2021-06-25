@@ -1,5 +1,7 @@
 import { Todo } from '../aggregates/todo.aggr';
 
 export interface TodoRepository {
-  create(todo: Todo): Promise<void>;
+  create(data: Todo): Promise<void>;
+  updateOne(id: string, data: Todo): Promise<void>;
+  findById(id: string): Promise<Todo>;
 }

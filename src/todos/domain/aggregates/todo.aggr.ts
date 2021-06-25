@@ -1,5 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs';
-import { TodoCreatedEvent } from '../events';
+import { TodoCompletedEvent, TodoCreatedEvent } from '../events';
 
 export enum TodoStatus {
   'ON_GOING' = 'ON_GOING',
@@ -17,30 +17,50 @@ export interface TodoProperties {
 }
 
 export class Todo extends AggregateRoot {
-  private readonly data: TodoProperties;
+  private readonly _id?: string;
+  private status?: TodoStatus;
+  private title: string;
+  private content: string;
+  private readonly createdAt?: Date;
+  private readonly updatedAt?: Date;
+  private readonly completedAt?: Date;
 
   constructor(data: TodoProperties) {
     super();
-    this.data = data;
+    this._id = data._id;
+    this.status = data.status;
+    this.title = data.title;
+    this.content = data.content;
+    this.createdAt = data.createdAt;
+    this.updatedAt = data.updatedAt;
+    this.completedAt = data.completedAt;
   }
-
   public get properties(): TodoProperties {
-    return this.data;
+    return {
+      _id: this._id,
+      content: this.content,
+      title: this.title,
+      completedAt: this.completedAt,
+      updatedAt: this.updatedAt,
+      status: this.status,
+      createdAt: this.createdAt,
+    };
   }
 
-  create(): void {
+  created(): void {
     this.apply(Object.assign(new TodoCreatedEvent(), this));
   }
 
-  update(): void {
+  updated(): void {
     console.log('Method not implemented yet');
   }
 
-  complete(): void {
-    console.log('Method not implemented yet');
+  completed(): void {
+    this.status = TodoStatus.COMPLETED;
+    this.apply(Object.assign(new TodoCompletedEvent(), this));
   }
 
-  remove(): void {
+  removed(): void {
     console.log('Method not implemented yet');
   }
 }

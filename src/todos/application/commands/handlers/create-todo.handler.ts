@@ -1,5 +1,6 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
+import { yellowBright } from 'cli-color';
 import { Todo } from 'src/todos/domain/aggregates/todo.aggr';
 import { TodoRepository } from 'src/todos/domain/repositories/todo.repo';
 import { TodoRepositoryImpl } from 'src/todos/infrastructure/repositories/todo.repo';
@@ -15,11 +16,13 @@ export class CreateTodoHandler
   ) {}
 
   async execute(command: CreateTodoCommand): Promise<void> {
+    Logger.log(yellowBright('Async CreateTodoCommand...', 'CreateTodoCommand'));
+
     const data = new Todo({ title: command.title, content: command.content });
 
     const todo = this.eventPublisher.mergeObjectContext(data);
 
-    todo.create();
+    todo.created();
 
     await this.repo.create(todo);
 

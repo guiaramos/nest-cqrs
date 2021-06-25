@@ -7,7 +7,7 @@ export type TodoDocument = Todo & Document;
 @Schema({
   collection: 'todos',
   collation: {
-    locale: 'ko_KR',
+    locale: 'ko',
     strength: 1,
     caseLevel: true,
   },
