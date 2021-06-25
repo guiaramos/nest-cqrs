@@ -34,11 +34,23 @@ export class TodoRepositoryImpl implements TodoRepository {
     return this.docToAggregate(doc);
   }
 
+  async findAll(skip: number, limit: number): Promise<Todo[]> {
+    const conditions: mongoose.FilterQuery<TodoDocument> = {};
+    const docs = await this.model
+      .find(conditions)
+      .sort({ createdAt: 1 })
+      .skip(skip)
+      .limit(limit)
+      .exec();
+
+    return docs.map((doc) => this.docToAggregate(doc));
+  }
+
   private aggreateToDoc(data: Todo): TodoDocument {
     return new this.model(data.properties);
   }
 
-  private docToAggregate(data: TodoDocument): Todo {
-    return new Todo(data);
+  private docToAggregate(doc: TodoDocument): Todo {
+    return new Todo(doc);
   }
 }

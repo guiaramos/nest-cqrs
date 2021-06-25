@@ -4,11 +4,12 @@ import { InfrastructureModule } from '../infrastructure/infrastructure.module';
 import { TodoController } from '../interface/todo.controller';
 import { CompleteTodoHandler, CreateTodoHandler } from './commands/handlers';
 import { TodoCompletedHandler, TodoCreatedHandler } from './events/handlers';
+import { FindTodosHandler } from './queries/handlers';
 
 const commands: Provider[] = [CreateTodoHandler, CompleteTodoHandler];
 const events: Provider[] = [TodoCreatedHandler, TodoCompletedHandler];
 const sagas: Provider[] = [];
-const queries: Provider[] = [];
+const queries: Provider[] = [FindTodosHandler];
 
 const providers: Provider[] = [...commands, ...events, ...sagas, ...queries];
 

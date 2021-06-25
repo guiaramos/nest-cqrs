@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -18,7 +19,7 @@ async function bootstrap() {
   const PORT = 4000;
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   setupSwagger(app);
 
   await app.listen(PORT, () => Logger.log(`App is listening on port ${PORT}`));
