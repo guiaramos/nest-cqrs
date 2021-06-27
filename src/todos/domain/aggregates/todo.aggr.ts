@@ -35,6 +35,7 @@ export class Todo extends AggregateRoot {
     this.updatedAt = data.updatedAt;
     this.completedAt = data.completedAt;
   }
+
   public get properties(): TodoProperties {
     return {
       _id: this._id,
@@ -51,16 +52,8 @@ export class Todo extends AggregateRoot {
     this.apply(Object.assign(new TodoCreatedEvent(), this));
   }
 
-  updated(): void {
-    console.log('Method not implemented yet');
-  }
-
   completed(): void {
     this.status = TodoStatus.COMPLETED;
     this.apply(Object.assign(new TodoCompletedEvent(), this));
-  }
-
-  removed(): void {
-    console.log('Method not implemented yet');
   }
 }
